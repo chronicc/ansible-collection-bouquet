@@ -1,0 +1,21 @@
+exclude_paths: []
+
+kinds:
+  - meta: "**/meta/main.yml"
+  - tasks: "**/handlers/*.yml"
+  - tasks: "**/tasks/*.yml"
+  - vars: "**/defaults/*.yml"
+  - vars: "**/vars/*.yml"
+  - yaml: "**/.pre-commit-config.yaml"
+  - yaml: "**/molecule.yml"
+
+skip_list:
+  - name[casing]
+
+warn_list: []
+
+offline: false
+parseable: true
+profile: production
+strict: true
+verbosity: 0

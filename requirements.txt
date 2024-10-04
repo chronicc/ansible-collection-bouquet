@@ -1,0 +1,10 @@
+ansible
+ansible-core
+ansible-lint
+antsibull-changelog
+molecule
+molecule-docker
+molecule-plugins
+pre-commit
+python-vagrant
+testinfra
