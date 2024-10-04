@@ -1,0 +1,8 @@
+ansible
+ansible-core
+ansible-lint
+molecule
+molecule-docker
+molecule-plugins
+python-vagrant
+testinfra
