@@ -1,0 +1,14 @@
+---
+# The directory where all bouquet stacks will be situated.
+bouquet_root_dir: /srv/bouquet # noqa var-naming[no-role-prefix]
+
+# A dictionary containing all stacks that will be deployed.
+bouquet_stack_map: {}
+  # bouquet_stack_map:
+  #   webserver:
+  #     services:
+  #       nginx:
+  #         image: nginx
+  #         ports:
+  #           - 80:80
+  #           - 443:443

@@ -1,0 +1,123 @@
+---
+role_name_check: 1
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+platforms:
+  - name: bouquet_stack_instance
+    box: ${MOLECULE_DISTRO:-generic/ubuntu2204}
+    memory: 4096
+    cpus: 2
+    interfaces:
+      - network_name: private_network
+        type: dhcp
+    config_options:
+      # SSH Settings (https://developer.hashicorp.com/vagrant/docs/vagrantfile/ssh_settings)
+      #
+      # ssh.compression: true
+      # ssh.config: ~/.ssh/config
+      # ssh.connect_timeout: 15
+      # ssh.disable_deprecated_algorithms: false
+      # ssh.dsa_authentication: true
+      # ssh.export_command_template: 'export %ENV_KEY%="%ENV_VALUE%"'
+      # ssh.extra_args:
+      # ssh.forward_agent: false
+      # ssh.forward_env: []
+      # ssh.forward_x11: false
+      # ssh.guest_port: 22
+      # ssh.host:
+      # ssh.insert_key: true
+      # ssh.keep_alive: true
+      # ssh.key_type: :auto
+      # ssh.keys_only: false
+      # ssh.password: vagrant
+      # ssh.port: 22
+      # ssh.private_key_path:
+      # ssh.proxy_command:
+      # ssh.pty: false
+      # ssh.remote_user: <--(ssh.username)
+      # ssh.shell: bash -l
+      # ssh.sudo_command: sudo -E -H %c
+      # ssh.username: vagrant
+      # ssh.verify_host_key: :never
+
+      # Vagrant Settings (https://developer.hashicorp.com/vagrant/docs/vagrantfile/vagrant_settings)
+      #
+      # vagrant.host: :detect
+      # vagrant.plugins: []
+      # vagrant.sensitive: []
+
+      # Machine Settings (https://developer.hashicorp.com/vagrant/docs/vagrantfile/machine_settings)
+      #
+      # vm.allow_fstab_modification: true
+      # vm.allow_hosts_modification:  true
+      # vm.allowed_synced_folder_types: []
+      # vm.base_address:
+      # vm.base_mac:
+      # vm.boot_timeout: 300
+      # vm.box: <--(platforms[0].box)
+      # vm.box_architecture: :auto
+      vm.box_check_update: false
+      # vm.box_download_ca_cert:
+      # vm.box_download_ca_path:
+      # vm.box_download_checksum_type:
+      # vm.box_download_checksum:
+      # vm.box_download_client_cert:
+      # vm.box_download_disable_ssl_revoke_best_effort: false
+      # vm.box_download_insecure: false
+      # vm.box_download_location_trusted: false
+      # vm.box_download_options:
+      # vm.box_url:
+      # vm.box_version: >= 0
+      # vm.cloud_init: {}
+      # vm.communicator: ssh
+      # vm.disk: {}
+      # vm.graceful_halt_timeout: 60
+      # vm.guest: :linux
+      # vm.hostname: nil
+      # vm.ignore_box_vagrantfile: false
+      # vm.network: <--(platforms[0].interfaces)
+      # vm.post_up_message:
+      # vm.provider: <--(driver.provider.name)
+      # vm.provision: {}
+      # vm.synced_folder: {}
+      # vm.usable_port_range: 2200..2250
+
+      # WinSSH Settings (https://developer.hashicorp.com/vagrant/docs/vagrantfile/winssh_settings)
+      #
+      # winssh.export_command_template: '$env:%ENV_KEY%="%ENV_VALUE%"'
+      # winssh.forward_agent: false
+      # winssh.forward_env: []
+      # winssh.keep_alive: true
+      # winssh.proxy_command:
+      # winssh.shell: powershell
+      # winssh.sudo_command: %c
+      # winssh.upload_directory: C:\Windows\Temp
+
+      # WinRM Settings (https://developer.hashicorp.com/vagrant/docs/vagran tfile/winrm_settings)
+      #
+      # winrm.basic_auth_only: false
+      # winrm.codepage:
+      # winrm.execution_time_limit: PT2H
+      # winrm.guest_port: 5985
+      # winrm.host:
+      # winrm.max_tries: 20
+      # winrm.password: vagrant
+      # winrm.port: 5985
+      # winrm.retry_delay: 2
+      # winrm.ssl_peer_verification: true
+      # winrm.timeout: 1800
+      # winrm.transport: :negotiate
+      # winrm.username: vagrant
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  options:
+    diff: true
+    verbose: true
+verifier:
+  name: ansible
