@@ -1,0 +1,41 @@
+- name: Setting up stack '{{ stack.key }}'
+  ansible.builtin.set_fact:
+    stack: '{{ item }}'
+
+- name: Create directory structure
+  ansible.builtin.file:
+    mode: '0700'
+    path: '{{ bouquet_root_dir }}/{{ stack.key }}'
+    state: directory
+
+- name: Add default options to every service
+  ansible.builtin.set_fact:
+    stack: >
+      {{
+        stack |
+        combine({
+          "value": {
+            "services": {
+              service.key: {
+                "networks": ["default"],
+                "restart": "always",
+              },
+            },
+          },
+        }, list_merge='append_rp', recursive=true)
+      }}
+  loop: '{{ stack.value.services | dict2items }}'
+  loop_control:
+    label: '{{ service.key }}'
+    loop_var: service
+
+- name: Write docker-compose file
+  ansible.builtin.template:
+    dest: '{{ bouquet_root_dir }}/{{ stack.key }}/docker-compose.yml'
+    mode: '0600'
+    src: 'docker-compose.yml.j2'
+    lstrip_blocks: true
+
+- name: Trigger stack update
+  community.docker.docker_compose_v2:
+    project_src: '{{ bouquet_root_dir }}/{{ stack.key }}'

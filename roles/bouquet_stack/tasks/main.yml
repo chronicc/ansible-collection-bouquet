@@ -1,0 +1,7 @@
+---
+# Detect if load balancer is installed
+
+- name: Setup bouquet stacks
+  ansible.builtin.include_tasks: stack.yml
+  loop: '{{ bouquet_stack_map | dict2items }}'
+  when: bouquet_stack_map | dict2items | length > 0

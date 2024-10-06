@@ -1,0 +1,40 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        cache_valid_time: 3600
+        update_cache: true
+      when: ansible_os_family == 'Debian'
+      changed_when: false
+  roles:
+    - role: bouquet_stack
+  vars:
+    bouquet_stack_map:
+      bouquet_test:
+        services:
+          app:
+            environment:
+              MYSQL_DATABASE: app
+              MYSQL_HOST: db
+              MYSQL_PASSWORD: app
+              MYSQL_USER: app
+            image: nginx
+            ports:
+              - 80:80
+              - 443:443
+            volumes:
+              - ./data:/app/data
+              - ./config:/app/config
+
+          db:
+            environment:
+              - MARIADB_DATABASE=app
+              - MARIADB_USER=app
+              - MARIADB_PASSWORD=app
+              - MARIADB_ROOT_PASSWORD=s3cr3t
+            image: mariadb
+            volumes:
+              - ./data:/var/lib/mysql
