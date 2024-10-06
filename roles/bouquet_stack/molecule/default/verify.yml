@@ -1,0 +1,24 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Get stats of docker-compose.yml
+      ansible.builtin.stat:
+        path: /srv/bouquet/bouquet_test/docker-compose.yml
+      register: compose_file
+
+    - name: Check docker-compose.yml checksum
+      ansible.builtin.assert:
+        that:
+          - compose_file.stat.checksum == '192542d664be38cbcaf00f3f080ca71c8957bdaa'
+        fail_msg: File checksum doesn't match
+
+    - name: Validate docker-compose.yml file
+      ansible.builtin.command:
+        argv:
+          - 'docker'
+          - 'compose'
+          - 'config'
+        chdir: /srv/bouquet/bouquet_test
+      changed_when: false

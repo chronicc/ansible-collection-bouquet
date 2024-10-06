@@ -1,0 +1,19 @@
+---
+role_name_check: 1
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: bouquet_stack_instance
+    image: ${MOLECULE_DISTRO:-ubuntu:22.04}
+    pre_build_image: false
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  options:
+    diff: true
+    verbose: true
+verifier:
+  name: ansible

@@ -13,6 +13,10 @@ No specific requirements.
 
 - [community.docker](https://github.com/ansible-collections/community.docker)
 
+## Roles
+
+- [bouquet_stack](./roles/bouquet_stack/) - Setup and manage bouquet stacks.
+
 ## License
 
 MIT

@@ -1,0 +1,25 @@
+---
+role_name_check: 1
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+platforms:
+  - name: bouquet_stack_instance
+    box: ${MOLECULE_DISTRO:-generic/ubuntu2204}
+    memory: 4096
+    cpus: 2
+    interfaces:
+      - network_name: private_network
+        type: dhcp
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  options:
+    diff: true
+    verbose: true
+verifier:
+  name: ansible
