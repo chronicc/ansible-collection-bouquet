@@ -1,0 +1,27 @@
+---
+services:
+{% for service in stack.value.services | dict2items %}
+  {{ service.key }}:
+  {% for option in service.value | dict2items %}
+  {% if option.key == 'environment' %}
+    {{ option.key }}:
+    {% if option.value is not mapping %}
+    {% for env in option.value %}
+      - {{ env }}
+    {% endfor %}
+    {% else %}
+    {% for env in option.value | dict2items %}
+      {{ env.key }}: {{ env.value }}
+    {% endfor %}
+    {% endif %}
+  {% elif option.value is iterable and option.value is not string %}
+    {{ option.key }}:
+    {% for value in option.value %}
+      - {{ value }}
+    {% endfor %}
+  {% else %}
+    {{ option.key }}: {{ option.value }}
+  {% endif %}
+  {% endfor %}
+
+{% endfor %}
