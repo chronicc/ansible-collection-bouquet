@@ -1,0 +1,33 @@
+name: molecule
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  molecule:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        distribution:
+          - almalinux:9
+          - debian:12
+          - ubuntu:22.04
+        target:
+          - role: bouquet_stack
+            scenario: default-ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true
+      - run: mise run install
+      - uses: gofrolist/molecule-action@v2
+        env:
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: '${{ matrix.distribution }}'
+        with:
+          molecule_args: --scenario-name ${{ matrix.target.scenario }}
+          molecule_working_dir: roles/${{ matrix.target.role }}

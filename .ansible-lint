@@ -5,6 +5,7 @@ kinds:
   - tasks: "**/handlers/*.yml"
   - tasks: "**/tasks/*.yml"
   - vars: "**/defaults/*.yml"
+  - vars: "**/molecule/**/vars.yml"
   - vars: "**/vars/*.yml"
   - yaml: "**/.pre-commit-config.yaml"
   - yaml: "**/molecule.yml"
