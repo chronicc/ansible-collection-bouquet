@@ -19,7 +19,7 @@ jobs:
           - role: bouquet_stack
             scenario: default-ci
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: jdx/mise-action@v2
         with:
           experimental: true
