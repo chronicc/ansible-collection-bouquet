@@ -20,7 +20,7 @@ jobs:
             scenario: default-ci
     steps:
       - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
+      - uses: jdx/mise-action@v3
         with:
           experimental: true
       - run: mise run install
