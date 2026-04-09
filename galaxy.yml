@@ -1,3 +1,4 @@
+---
 ### REQUIRED
 # The namespace of the collection. This can be a company/brand/organization or product namespace under which all
 # content lives. May only contain alphanumeric lowercase characters and underscores. Namespaces cannot start with
@@ -18,7 +19,6 @@ readme: README.md
 authors:
   - Kurt Thomas Steinert <hello@chroni.cc>
 
-
 ### OPTIONAL but strongly recommended
 # A short summary description of the collection
 description: Setup and manage containerized applications with docker-compose.
@@ -30,7 +30,7 @@ license:
 
 # The path to the license file for the collection. This path is relative to the root of the collection. This key is
 # mutually exclusive with 'license'
-license_file: ''
+license_file: ""
 
 # A list of tags you want to associate with the collection for indexing/searching. A tag name has the same character
 # requirements as 'namespace' and 'name'
@@ -49,7 +49,8 @@ tags:
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
 dependencies:
-  community.docker: '>=3.12.0'
+  community.docker: ">=3.12.0"
+  community.general: ">=9.4.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/chronicc/ansible-collection-bouquet

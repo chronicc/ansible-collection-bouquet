@@ -1,9 +1,12 @@
+---
 name: molecule
 
+# yamllint disable-line rule:truthy
 on:
   pull_request:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   molecule:
@@ -19,15 +22,18 @@ jobs:
           - role: bouquet_stack
             scenario: default-ci
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
-        with:
-          experimental: true
-      - run: mise run install
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install python
+        run: uv python install
+
       - uses: gofrolist/molecule-action@v2
         env:
-          ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_DISTRO: '${{ matrix.distribution }}'
+          ANSIBLE_FORCE_COLOR: "1"
+          MOLECULE_DISTRO: "${{ matrix.distribution }}"
         with:
           molecule_args: --scenario-name ${{ matrix.target.scenario }}
           molecule_working_dir: roles/${{ matrix.target.role }}

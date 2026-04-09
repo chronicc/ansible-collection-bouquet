@@ -1,16 +1,17 @@
-- name: Setting up stack '{{ stack.key }}'
+---
+- name: Setting up stack '{{ item.key }}'
   ansible.builtin.set_fact:
-    stack: '{{ item }}'
+    bouquet_stack_item: '{{ item }}'
 
 - name: Create directory structure
   ansible.builtin.file:
     mode: '0700'
-    path: '{{ bouquet_root_dir }}/{{ stack.key }}'
+    path: '{{ bouquet_root_dir }}/{{ item.key }}'
     state: directory
 
 - name: Add default options to every service
   ansible.builtin.set_fact:
-    stack: >
+    bouquet_stack_item: >
       {{
         stack |
         combine({
@@ -24,19 +25,19 @@
           },
         }, list_merge='append_rp', recursive=true)
       }}
-  loop: '{{ stack.value.services | dict2items }}'
+  loop: '{{ bouquet_stack_item.value.services | dict2items }}'
   loop_control:
     label: '{{ service.key }}'
     loop_var: service
 
 - name: Write docker-compose file
   ansible.builtin.template:
-    dest: '{{ bouquet_root_dir }}/{{ stack.key }}/docker-compose.yml'
+    dest: '{{ bouquet_root_dir }}/{{ item.key }}/docker-compose.yml'
     mode: '0600'
     src: 'docker-compose.yml.j2'
     lstrip_blocks: true
 
 - name: Trigger stack update
   community.docker.docker_compose_v2:
-    project_src: '{{ bouquet_root_dir }}/{{ stack.key }}'
+    project_src: '{{ bouquet_root_dir }}/{{ item.key }}'
   when: not ci | default(false)
